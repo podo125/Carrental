@@ -27,6 +27,7 @@ $args = explode(':', $smsBody);
 $Brand = $args[0];
 $NumOfDays = $args[1];
 
+
 $selectSQL = "
 	SELECT
 		*
@@ -64,12 +65,25 @@ if ($rSelect == false) {
     echo '+OK your Total Price For ' . $Brand . ' for ' . $NumOfDays . '  days is ' . $Totalprice;
     exit();
 
-    $insertSQL = "
-     INSERT INTO carrentaluni
+    if (0) {
+        $ID1 = $ID + 1;
+
+        $insertSQL = "
+     INSERT INTO carrentaluni1
+     Where ID = '$ID1'
       (ID, Brand ,Price ,DateTime)
       VALUES
-      ('DateTime' . '$Brand' ,'$Price' NOW())
-";
+      ('DateTime' . '$Brand' ,'$Price', $dt)
+    ";
+
+        $rSelect = mysql_query($insertSQL);
+
+        if ($rSelect == false) {
+
+            echo "-ERR MySQL Error: " . mysql_error() . "\nSQL: $selectSQL";
+            exit();
+        }
+    }
 }
 mysql_close($link);
 ?>
