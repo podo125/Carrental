@@ -25,6 +25,8 @@ $smsBody = addslashes($smsBody);
 
 $args = explode(':', $smsBody);
 $Brand = $args[0];
+$Np= count($args);
+if($Np==2) 
 $NumOfDays = $args[1];
 
 
@@ -39,7 +41,7 @@ Brand='$Brand'
 
 $rSelect = mysql_query($selectSQL);
 
-if ($rSelect == false) {
+if ($rSelect == false){
 
     echo "-ERR MySQL Error: " . mysql_error() . "\nSQL: $selectSQL";
     exit();
@@ -50,6 +52,7 @@ if ($rSelect == false) {
     if ($count == 0) {
 
         echo "+OK Invalid request Brand.";
+        mysql_close($link);
         exit();
     }
 
@@ -59,31 +62,17 @@ if ($rSelect == false) {
     $ID = $row['ID'];
     $Brand = $row['Brand'];
     $dt = $row['DateTime'];
+if ($Np==2) 
 
-    $Totalprice = $NumOfDays * $price;
+{$Totalprice = $NumOfDays * $price; 
+
 
     echo '+OK your Total Price For ' . $Brand . ' for ' . $NumOfDays . '  days is ' . $Totalprice;
+}
+    else  
+        echo "+OK The price per day is $price ";
+
     exit();
-
-    if (0) {
-        $ID1 = $ID + 1;
-
-        $insertSQL = "
-     INSERT INTO carrentaluni1
-     Where ID = '$ID1'
-      (ID, Brand ,Price ,DateTime)
-      VALUES
-      ('DateTime' . '$Brand' ,'$Price', $dt)
-    ";
-
-        $rSelect = mysql_query($insertSQL);
-
-        if ($rSelect == false) {
-
-            echo "-ERR MySQL Error: " . mysql_error() . "\nSQL: $selectSQL";
-            exit();
-        }
-    }
 }
 mysql_close($link);
 ?>
